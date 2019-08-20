@@ -1,31 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import UserTable from "./UserTable";
+import AddUserForm from "./AddUserForm";
 
-function App() {
-  const [buttonText, setButtonText] = useState("Click Me");
-  const [users, setUsers] = useState([]);
-
-  useEffect(async() => {
-    await fetch('https://api.github.com/users')
-      .then(response => response.json())
-      .then(data => {
-        setUsers(data);
-      })
-  }, [])
+const App = () => {
+  const usersData = [
+    { id: 1, name: "Tania", username: "floppydiskette" },
+    { id: 2, name: "Craig", username: "siliconidolon" },
+    { id: 3, name: "Ben", username: "benisphere" }
+  ];
   
-  function handleClick() {
-    return setButtonText("I have been clicked");
-  }
-
+  const [users, setUsers] = useState(usersData);
+  const addUser = user => {
+    user.id = users.length + 1;
+    setUsers([...users, user]);
+  };
+  
   return (
-    <div className="section">
-      <button onClick={handleClick}>{buttonText}</button>
-      {users.map(user => (
-        <div key={user.id} className="card">
-          <h5>{user.login}</h5>
-          </div>
-      ))}
-    </div>
-  )
-}
+    <div className="container">
+      <h1>CRUD App with Hooks</h1>
+      <div className="flex-row">
+        <div className="flex-large">
+          <h2>Add User</h2>
+          <AddUserForm addUser={addUser} />
+        </div>
+
+        <div className="flex-large">
+          <h2>View Users</h2>
+          <UserTable users={usersData} />
+        </div>
+      </div>
+     </div>
+  );
+};
 
 export default App;
