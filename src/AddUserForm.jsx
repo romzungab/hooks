@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 
-const AddUserForm = props => {
+export default function AddUserForm(props){
   const initialFormState = { id: null, name: "", username: "" };
   const [user, setUser] = useState(initialFormState);
 
-  const handleInputChange = event => {
+  function handleInputChange(event){
     const { name, value } = event.target;
     setUser({ ...user, [name]: value });
   };
 
-  const handleFormSubmit = event => {
+  function handleFormSubmit(event){
     event.preventDefault();
     if (!user.name || !user.username) 
         return;
-    console.log("User addd", user)
+   
     props.addUser(user);
 
     setUser(initialFormState);
@@ -30,4 +30,3 @@ const AddUserForm = props => {
   );
 };
 
-export default AddUserForm;
